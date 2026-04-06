@@ -6,7 +6,7 @@ const projects = [
     number: 'Projekt 01',
     title: 'Domowy serwer',
     description: 'Serwer postawiony na thinkpadzie t530, z którego hostowane są wszystkie projekty.',
-    bubbleText: 'Serwer hostujący wszystkie aplikacje w kontenerach Docker. Ruch przechodzi przez Cloudflare Tunnel i jest routowany przez Caddy jako reverse proxy.'
+    bubbleText: 'Serwer hostujący wszystkie aplikacje w kontenerach Docker. Ruch przechodzi przez Cloudflare Tunnel i jest routowany przez Caddy jako reverse proxy.',
     tech: ['Caddy', 'Docker', 'Cloudflare'],
     href: 'https://github.com/opekk/home-server',
   },
@@ -21,7 +21,8 @@ const projects = [
   {
     number: 'Projekt 03',
     title: 'Pipeline CI/CD',
-    description: 'Po pushu na zdalne repozytorium, GitHub wysyła webhook do serwera. Po weryfikacji podpisu, budowany jest nowy obraz Dockera, kontener jest zamieniany, a następnie sprawdzany jest jego health check. Caddy jako reverse proxy obsługuje ruch podczas krótkiej przerwy w zamianie.',
+    description: 'Automatyczny pipeline CI/CD wdrażający aplikacje na serwer po pushu na GitHub.',
+    bubbleText: 'Po pushu na zdalne repozytorium, GitHub wysyła webhook do serwera. Po weryfikacji podpisu, budowany jest nowy obraz Dockera, kontener jest zamieniany, a następnie sprawdzany jest jego health check. Caddy jako reverse proxy obsługuje ruch podczas krótkiej przerwy w zamianie.',
     tech: ['Python', 'Docker', 'GitHub Webhooks'],
     href: 'https://github.com/opekk/home-server/deploy',
   },

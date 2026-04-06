@@ -1,0 +1,212 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  description: string;
+  bubbleText: string;
+  tech: string[];
+  href: string;
+}
+
+const { number, title, description, bubbleText, tech, href } = Astro.props;
+---
+
+<div class="project-card">
+  <div class="project-bubble">
+    <p>{bubbleText}</p>
+    <div class="bubble-arrow"></div>
+  </div>
+  <div class="project-number">{number}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="project-tech">
+    {tech.map((t) => <span>{t}</span>)}
+  </div>
+  <a href={href} class="project-link">
+    Zobacz więcej
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+</div>
+
+<style>
+  .project-card {
+    background: var(--dark);
+    border-radius: 14px;
+    padding: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 260px;
+    position: relative;
+    transform-style: preserve-3d;
+    /* reveal initial state — flat, slightly behind */
+    opacity: 0;
+    transform: translateZ(-60px) scale(0.96);
+    box-shadow: 0 1px 2px rgba(33,32,28,0.05);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .project-card.revealed {
+    opacity: 1;
+    transform: translateZ(24px) scale(1.02);
+    box-shadow:
+      0 14px 28px rgba(33,32,28,0.14),
+      0 32px 64px rgba(33,32,28,0.10);
+  }
+
+  .project-card.settled {
+    transform: translateZ(0) scale(1);
+    box-shadow:
+      0 4px 16px rgba(33,32,28,0.08),
+      0 12px 32px rgba(33,32,28,0.05);
+    transition:
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* hover lifts towards user again */
+  .project-card.settled:hover {
+    transform: translateZ(18px) scale(1.015);
+    box-shadow:
+      0 16px 32px rgba(33,32,28,0.15),
+      0 36px 72px rgba(33,32,28,0.10);
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 14px 14px 0 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .project-card.settled:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* === BUBBLE TOOLTIP === */
+  .project-bubble {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    width: 280px;
+    background: var(--cream);
+    border: 1px solid var(--cream-dim);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    box-shadow:
+      0 8px 32px rgba(33,32,28,0.12),
+      0 2px 8px rgba(33,32,28,0.08);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 10;
+  }
+
+  .project-bubble p {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--dark-soft);
+    margin: 0;
+  }
+
+  .bubble-arrow {
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 12px;
+    height: 12px;
+    background: var(--cream);
+    border-right: 1px solid var(--cream-dim);
+    border-bottom: 1px solid var(--cream-dim);
+  }
+
+  .project-card.settled:hover .project-bubble {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  .project-number {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .project-card p {
+    font-size: 0.85rem;
+    color: rgba(230,227,199,0.6);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 1.2rem;
+  }
+
+  .project-tech span {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    border: 1px solid rgba(230,227,199,0.15);
+    color: rgba(230,227,199,0.5);
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--gold);
+    transition: gap 0.2s ease;
+  }
+
+  .project-link:hover {
+    gap: 0.7rem;
+  }
+
+  .project-link svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  @media (max-width: 768px) {
+    .project-card {
+      min-height: auto;
+    }
+
+    .project-bubble {
+      display: none;
+    }
+  }
+</style>
