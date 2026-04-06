@@ -13,9 +13,9 @@ const projects = [
   {
     number: 'Projekt 02',
     title: 'Sensor temperatury',
-    description: 'Sensor temperatury ds18b20 obsługiwany przez ESP32, który wysyła obecną temperature na serwer',
-    bubbleText: 'Sensor temperatury wysyła w czasie rzeczywistym obecną temperaturę czytaną przez czujnik na serwer https. Możemy zobaczyć wykresy temperatury z poprzedniej godziny jak i poprzedniego dnia',
-    tech: ['Python', 'C'],
+    description: 'Sensor temperatury DS18B20 obsługiwany przez ESP32, który wysyła obecną temperature na serwer.',
+    bubbleText: 'Sensor temperatury wysyła w czasie rzeczywistym obecną temperaturę czytaną przez czujnik na serwer https. Możemy zobaczyć wykresy temperatury z poprzedniej godziny jak i poprzedniego dnia'.,
+    tech: ['Python', 'C', 'ESP32'],
     href: 'https://github.com/opekk/temperature-sensor',
   },
   {
@@ -141,6 +141,27 @@ const projects = [
 
   <script>
     const cards = document.querySelectorAll('.project-card');
+    const projectsGrid = document.querySelector('.projects-grid');
+
+    // Push the footer down by the bubble's actual height on hover so the
+    // tooltip never overlaps the footer. Mobile keeps display:none on the
+    // bubble, so offsetHeight stays 0 and nothing changes.
+    cards.forEach(card => {
+      const bubble = card.querySelector('.project-bubble');
+      if (!bubble || !projectsGrid) return;
+
+      card.addEventListener('mouseenter', () => {
+        if (!card.classList.contains('settled')) return;
+        const height = bubble.offsetHeight;
+        if (height > 0) {
+          projectsGrid.style.paddingBottom = `${height + 14}px`;
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        projectsGrid.style.paddingBottom = '';
+      });
+    });
 
     if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
       const observer = new IntersectionObserver((entries) => {
@@ -444,6 +465,7 @@ const projects = [
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     perspective: 1200px;
+    transition: padding-bottom 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .projects-grid :global(.project-card:nth-child(2)) { transition-delay: 0.12s; }
