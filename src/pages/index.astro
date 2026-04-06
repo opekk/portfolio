@@ -1,77 +1,559 @@
 ---
-import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = [
+  {
+    number: 'Projekt 01',
+    title: 'Domowy serwer',
+    description: 'Serwer postawiony na thinkpadzie t530, z którego hostowane są wszystkie projekty.',
+    bubbleText: 'Serwer hostujący wszystkie aplikacje w kontenerach Docker. Ruch przechodzi przez Cloudflare Tunnel i jest routowany przez Caddy jako reverse proxy.'
+    tech: ['Caddy', 'Docker', 'Cloudflare'],
+    href: 'https://github.com/opekk/home-server',
+  },
+  {
+    number: 'Projekt 02',
+    title: 'Sensor temperatury',
+    description: 'Sensor temperatury ds18b20 obsługiwany przez ESP32, który wysyła obecną temperature na serwer',
+    bubbleText: 'Sensor temperatury wysyła w czasie rzeczywistym obecną temperaturę czytaną przez czujnik na serwer https. Możemy zobaczyć wykresy temperatury z poprzedniej godziny jak i poprzedniego dnia',
+    tech: ['Python', 'C'],
+    href: 'https://github.com/opekk/temperature-sensor',
+  },
+  {
+    number: 'Projekt 03',
+    title: 'Pipeline CI/CD',
+    description: 'Po pushu na zdalne repozytorium, GitHub wysyła webhook do serwera. Po weryfikacji podpisu, budowany jest nowy obraz Dockera, kontener jest zamieniany, a następnie sprawdzany jest jego health check. Caddy jako reverse proxy obsługuje ruch podczas krótkiej przerwy w zamianie.',
+    tech: ['Python', 'Docker', 'GitHub Webhooks'],
+    href: 'https://github.com/opekk/home-server/deploy',
+  },
+];
 ---
 
-<Base title="Maciek — Portfolio">
-  <main>
-    <section class="hero">
-      <h1>Hi, I'm Maciek</h1>
-      <p>Welcome to my portfolio. This page is served from a ThinkPad T430 in my living room.</p>
-    </section>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
 
-    <section class="projects">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article class="card">
-          <h3>Project One</h3>
-          <p>Description of your first project.</p>
-          <a href="#">View project &rarr;</a>
-        </article>
-        <article class="card">
-          <h3>Project Two</h3>
-          <p>Description of your second project.</p>
-          <a href="#">View project &rarr;</a>
-        </article>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-inner fade-in">
+        <div class="avatar">MO</div>
+        <div class="header-info">
+          <div class="header-name">Maciej Ołdakowski</div>
+          <div class="header-links">
+            <a href="https://github.com/opekk">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/maciej-ołdakowski-808560401/">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
       </div>
-    </section>
-  </main>
-</Base>
+    </div>
+  </header>
+
+  <!-- O MNIE -->
+  <section>
+    <div class="container">
+      <div class="section-label fade-in delay-1">O mnie</div>
+      <div class="about-grid fade-in delay-2">
+        <div class="about-photo">
+          <div class="about-photo-placeholder">Zdjęcie</div>
+        </div>
+        <div class="about-text">
+          <h2></h2>
+          <p>
+            Inżynier informatyki, obecnie na II stopniu studiów. Interesuję się bieganiem, Ekstraklasą oraz hip-Hopem. Poniżej znajdziesz projekty, które udało mi się zrealizować.
+          </p>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Docker</span>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUKACJA -->
+  <section>
+    <div class="container">
+      <div class="section-label fade-in delay-1">Edukacja</div>
+      <div class="edu-items">
+        <div class="edu-item fade-in delay-2">
+          <div class="edu-year">2026 — teraz</div>
+          <div class="edu-content">
+            <h3>Informatyka, mgr</h3>
+            <p>Politechnika Lubleska</p>
+          </div>
+        </div>
+        <div class="edu-item fade-in delay-3">
+          <div class="edu-year">2022 — 2026</div>
+          <div class="edu-content">
+            <h3>Informatyka, inż.</h3>
+            <p>Politechinka Lubelska, specjalizacja - Wytwarzanie Oprogramowania.</p>
+            <p>Praca Inżynierska: Integracja systemu renderującego obiekty 3D z internetowym serwisem aukcujnym. </p>
+            <p>Integracja systemu renderującego napisanego w C++, poprzez przekompilowanie go na WebAssembly z serwsiem aukcyjnym napisanym w React i Node.js.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJEKTY -->
+  <section>
+    <div class="container">
+      <div class="section-label fade-in delay-1">Projekty</div>
+      <div class="projects-grid">
+        {projects.map(project => (
+          <ProjectCard {...project} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-cta">
+        <h3>Porozmawiajmy</h3>
+        <p>Otwarty na nowe projekty i współpracę.</p>
+      </div>
+      <a href="mailto:maciek09874@gmail.com" class="footer-btn">
+        Napisz do mnie
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Maciej Ołdakowski
+    </div>
+  </footer>
+
+  <script>
+    const cards = document.querySelectorAll('.project-card');
+
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            card.classList.add('revealed');
+
+            card.addEventListener('transitionend', function settle(e) {
+              if (e.propertyName === 'transform') {
+                card.removeEventListener('transitionend', settle);
+                card.classList.add('settled');
+              }
+            });
+
+            observer.unobserve(card);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      cards.forEach(card => observer.observe(card));
+    } else {
+      cards.forEach(card => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateZ(0) scale(1)';
+        card.style.boxShadow = '0 4px 16px rgba(33,32,28,0.08)';
+      });
+    }
+  </script>
+
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #E6E3C7;
+    --dark: #21201C;
+    --gold: #D69F1F;
+    --cream-dim: #D8D5B8;
+    --dark-soft: #3D3A33;
+    --gold-light: #F5E6B8;
+    --gold-dark: #A47A12;
+    --text-secondary: #6B6860;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+  }
+</style>
 
 <style>
-  main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
+  /* === HEADER === */
+  header {
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--cream-dim);
   }
 
-  .hero {
-    margin-bottom: 4rem;
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
   }
 
-  .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--dark);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cream);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    letter-spacing: -0.02em;
   }
 
-  .hero p {
-    font-size: 1.2rem;
-    color: #555;
-  }
+  .header-info { flex: 1; }
 
-  .projects h2 {
+  .header-name {
+    font-family: 'DM Serif Display', serif;
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
-  .grid {
+  .header-role {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.15rem;
+  }
+
+  .header-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+
+  .header-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--dark);
+    border-radius: 100px;
+    transition: all 0.25s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .header-links a:hover {
+    background: var(--dark);
+    color: var(--cream);
+  }
+
+  .header-links a svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* === SECTIONS === */
+  section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--cream-dim);
+  }
+
+  section:last-of-type {
+    border-bottom: none;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold-dark);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: var(--gold);
+    display: inline-block;
+  }
+
+  /* === ABOUT === */
+  .about-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 200px 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 12px;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(33,32,28,0.1);
+  }
+
+  .about-photo-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(230,227,199,0.4);
+  }
+
+  .about-text h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+    color: var(--dark-soft);
+    line-height: 1.75;
+    max-width: 520px;
+    margin-bottom: 1.2rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.2rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.65rem;
+    border-radius: 100px;
+    background: var(--dark);
+    color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+
+  /* === EDUCATION === */
+  .edu-items {
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
   }
 
-  .card {
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
-    padding: 1.5rem;
+  .edu-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 2rem;
+    align-items: baseline;
   }
 
-  .card h3 {
-    margin-bottom: 0.5rem;
+  .edu-year {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.1rem;
   }
 
-  .card p {
-    color: #555;
-    margin-bottom: 1rem;
+  .edu-content h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.2rem;
+  }
+
+  .edu-content p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* === PROJECTS === */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    perspective: 1200px;
+  }
+
+  .projects-grid :global(.project-card:nth-child(2)) { transition-delay: 0.12s; }
+  .projects-grid :global(.project-card:nth-child(3)) { transition-delay: 0.24s; }
+
+  /* === FOOTER === */
+  footer {
+    background: var(--dark);
+    color: var(--cream);
+    margin-top: 2rem;
+  }
+
+  .footer-inner {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-cta h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-cta p {
+    font-size: 0.88rem;
+    color: rgba(230,227,199,0.5);
+  }
+
+  .footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.6rem;
+    background: var(--gold);
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(214,159,31,0.3);
+  }
+
+  .footer-bottom {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
+    font-size: 0.75rem;
+    color: rgba(230,227,199,0.3);
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .about-photo {
+      width: 140px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+    }
+
+    .edu-item {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .footer-inner {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    section {
+      padding: 3rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-text h2 {
+      font-size: 1.4rem;
+    }
+
+    .header-links {
+      flex-wrap: wrap;
+    }
   }
 </style>
