@@ -13,7 +13,7 @@ const { number, title, description, bubbleText, tech, href } = Astro.props;
 
 <div class="project-card">
   <div class="project-bubble">
-    <p>{bubbleText}</p>
+    <p class="bubble-text">{bubbleText}</p>
     <div class="bubble-arrow"></div>
   </div>
   <div class="project-number">{number}</div>
@@ -95,9 +95,9 @@ const { number, title, description, bubbleText, tech, href } = Astro.props;
   /* === BUBBLE TOOLTIP === */
   .project-bubble {
     position: absolute;
-    bottom: calc(100% + 14px);
+    top: calc(100% + 14px);
     left: 50%;
-    transform: translateX(-50%) translateY(8px);
+    transform: translateX(-50%) translateY(-8px);
     width: 280px;
     background: var(--cream);
     border: 1px solid var(--cream-dim);
@@ -114,23 +114,24 @@ const { number, title, description, bubbleText, tech, href } = Astro.props;
     z-index: 10;
   }
 
-  .project-bubble p {
+  .bubble-text {
     font-size: 0.82rem;
     line-height: 1.65;
     color: var(--dark-soft);
     margin: 0;
+    flex: none;
   }
 
   .bubble-arrow {
     position: absolute;
-    bottom: -7px;
+    top: -7px;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
     width: 12px;
     height: 12px;
     background: var(--cream);
-    border-right: 1px solid var(--cream-dim);
-    border-bottom: 1px solid var(--cream-dim);
+    border-left: 1px solid var(--cream-dim);
+    border-top: 1px solid var(--cream-dim);
   }
 
   .project-card.settled:hover .project-bubble {
